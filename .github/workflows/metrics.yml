@@ -1,0 +1,36 @@
+name: Metrics
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # atualiza diariamente
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub Metrics
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # ─── BÁSICO ─────────────────────────────
+          user: mjucimara
+          template: classic
+          base: header, activity, community, repositories
+
+          # ─── LINGUAGENS ─────────────────────────
+          languages: yes
+          languages_ignored: html, css
+          languages_details: bytes-size, percentage
+
+          # ─── ATIVIDADE ──────────────────────────
+          activity: yes
+          activity_limit: 5
+          activity_days: 14
+
+          # ─── COMMITS ────────────────────────────
+          repositories: yes
